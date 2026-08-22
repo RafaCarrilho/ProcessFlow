@@ -36,11 +36,13 @@ task* encontrar_task (char *nome){
     while (procurando){
         if (i<num_tarefas && strcmp(tarefas[i].nome, nome)==0){
             procurando =0;
+            printf("Tarefa encontrada\n");
             return &tarefas[i];
         }
 
         i++;
         if (i>=num_tarefas && procurando){
+            printf("Tarefa não encontrada\n");
             procurando =0;
         }
     }
