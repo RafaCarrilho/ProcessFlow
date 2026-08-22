@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 static task tarefas[MAXTASKS];
 static int num_tarefas = 0;
 
