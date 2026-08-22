@@ -1,11 +1,21 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
-#include <sys/wait.h>
-#include <stdlib.h>
 
-#include <stdio.h>
-int main (){
-    
+int main() {
+    char linha[256] = "lesgooo";
+    int loop;
+    while ((loop=strcmp(linha, "exit\n"))!=0) {
+        
+        printf("processflow> ");
+        
+        fgets(linha, sizeof(linha), stdin);
+
+        if (strcmp(linha, "exit\n") == 0) {
+            break;   
+        }
+
+        
+    }
+
     return 0;
 }

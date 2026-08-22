@@ -3,3 +3,5 @@ processflow
 *.o
 *.out
 .vscode/
+main
+evidencias.log
