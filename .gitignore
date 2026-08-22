@@ -2,3 +2,4 @@ dupepipe
 processflow
 *.o
 *.out
+.vscode/
