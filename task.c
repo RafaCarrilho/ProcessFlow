@@ -6,6 +6,29 @@
 static task tarefas[MAXTASKS];
 static int num_tarefas = 0;
 
+void cadastrar_task (char *nome, char *argv[]){
+    
+    if (num_tarefas >= MAXTASKS) {
+        printf("Limite de tasks atingido\n");
+        return;
+    }
+
+    task tarefa = {0};
+    
+    strcpy (tarefa.nome, nome);
+    
+    int i = 0;
+    while (argv[i] != NULL) {
+        tarefa.argv[i] = strdup(argv[i]);
+        i++;
+    }
+    tarefa.argv[i] = NULL;
+
+    tarefas[num_tarefas]= tarefa;
+    num_tarefas++;
+}
+
+
 task* encontrar_task (char *nome){
     int i=0;
     int procurando = 1;
