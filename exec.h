@@ -6,6 +6,6 @@ void executar (task* task_alvo);
 void executar_paralelo (char *argv[]);
 void executar_sequencial (char *argv[]);
 void executar_pipe (char *argv[]);
-
+void executar_background (task* task_alvo);
 
 #endif

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include "job.h"
 
 static void redirecionar_input (task *tarefa){
     if (tarefa->input[0] != '\0'){
@@ -185,4 +186,26 @@ void executar_pipe (char *argv[]){
             printf("Não foi dessa vez...\n"); //vou remover essas remarks de teste no futuro
         }
     }
+}
+
+void executar_background (task* task_alvo){
+    pid_t pid = fork();
+
+    if (pid < 0){
+        perror("Erro no fork");
+    }else if (pid ==0 ){
+        redirecionar_input(task_alvo);
+        redirecionar_output_append(task_alvo);
+        execvp (task_alvo->argv[0], task_alvo->argv);
+        perror ("Erro no exec (duvido que aconteça)");
+        exit(1);
+    } else{
+        
+        //agora papi]
+        int jobID = iniciar_job(pid);
+        printf("[%d] %d\n", jobID, pid);
+
+    }
+
+    
 }
