@@ -21,13 +21,24 @@ int main() {
             break;   
         }
         parse(linha, argv);
+        if (argv[0] == NULL) {
+            continue;
+        }
         
         if (strcmp(argv[0], "task")==0){
+            if (argv[1] == NULL) {
+                printf("Uso: task <nome> <programa> [args...]\n");
+                continue;
+            }
             cadastrar_task (argv[1], &argv[2]);
             printf("Task %s cadastrada com sucesso\n", argv[1]);
         }
 
         if (strcmp(argv[0], "start")==0){
+            if (argv[1] == NULL) {
+                printf("Uso: start <tarefa>\n");
+                continue;
+            }
             task *task_alvo =encontrar_task (argv[1]);
             
             if (task_alvo != NULL) {
@@ -40,27 +51,47 @@ int main() {
         }    
         
         if (strcmp(argv[0], "wait")==0){
+            if (argv[1] == NULL) {
+                printf("Uso: wait <jobID>\n");
+                continue;
+            }
             int jobID = atoi(argv[1]);
             wait_job(jobID);
         }  
         
         
         if (strcmp(argv[0], "input")==0){
+            if (argv[1] == NULL || argv[2] == NULL) {
+                printf("Uso: input <tarefa> <arquivo>\n");
+                continue;
+            }
             criar_input (argv[1], argv[2]);
             printf("Input de %s alterado com sucesso\n", argv[1]);
         }
 
         if (strcmp(argv[0], "output")==0){
+            if (argv[1] == NULL || argv[2] == NULL) {
+                printf("Uso: output <tarefa> <arquivo>\n");
+                continue;
+            }
             criar_output (argv[1], argv[2]);
             printf("Output de %s alterado com sucesso\n", argv[1]);
         }
 
         if (strcmp(argv[0], "append")==0){
+            if (argv[1] == NULL || argv[2] == NULL) {
+                printf("Uso: append <tarefa> <arquivo>\n");
+                continue;
+            }
             criar_append (argv[1], argv[2]);
             printf("Append de %s alterado com sucesso\n", argv[1]);
         }
 
         if (strcmp(argv[0], "run")==0){
+            if (argv[1] == NULL) {
+                printf("Uso: run <sequential|parallel|pipe|nome> ...\n");
+                continue;
+            }
             if (strcmp(argv[1], "sequential")==0){
                 
                 executar_sequencial(&argv[2]);
