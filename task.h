@@ -13,5 +13,8 @@ typedef struct {
 
 void cadastrar_task (char *nome, char *argv[]);
 task* encontrar_task (char *nome);
+void criar_input (char* nome, char* nome_arquivo);
+void criar_output (char* nome, char* nome_arquivo);
+void criar_append (char* nome, char* nome_arquivo);
 
 #endif

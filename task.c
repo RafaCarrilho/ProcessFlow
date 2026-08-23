@@ -48,4 +48,40 @@ task* encontrar_task (char *nome){
     }
 
     return NULL;
-}   
+}
+
+void criar_input (char* nome, char* nome_arquivo){
+    task *tarefa = encontrar_task(nome);
+    
+    if (tarefa == NULL) {
+        printf("Erro ao encontrar tarefa\n");
+        return;
+    }
+    strcpy(tarefa->input, nome_arquivo);
+
+}
+
+void criar_output (char* nome, char* nome_arquivo){
+    task *tarefa = encontrar_task(nome);
+    
+    if (tarefa == NULL) {
+        printf("Erro ao encontrar tarefa\n");
+        return;
+    }
+    tarefa->append=0;
+    strcpy(tarefa->output, nome_arquivo);
+
+}
+
+void criar_append (char* nome, char* nome_arquivo){
+    task *tarefa = encontrar_task(nome);
+    
+    if (tarefa == NULL) {
+        printf("Erro ao encontrar tarefa\n");
+        return;
+    }
+    tarefa->append=1;
+    strcpy(tarefa->output, nome_arquivo);
+
+
+}
