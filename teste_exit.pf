@@ -1,0 +1,4 @@
+task teste echo ola
+run teste
+exit
+task nao deveria rodar

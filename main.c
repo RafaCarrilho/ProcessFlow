@@ -1,25 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "task.h"
 #include "parser.h"
 #include "exec.h"
 #include "job.h"
 
-int main() {
+int main(int argc, char *arguments[]) {
     char linha[256] = "lesgooo";
-    int loop;
     char *argv[MAXARG];
+    FILE *entrada = stdin;
 
-    while ((loop=strcmp(linha, "exit\n"))!=0) {
-        
-        printf("processflow> ");
-        
-        fgets(linha, sizeof(linha), stdin);
+    if (argc == 2){
+        entrada = fopen(arguments[1], "r");
+        if (entrada == NULL){
+            printf("Arquivo workflow não existe ou não pode ser aberto\n");
+            exit(1);
+        }
+    }
 
-        if (strcmp(linha, "exit\n") == 0) {
+    if (argc > 2){
+        printf("Numero incorreto de argumentos ao iniciar o ProcessFlow\n");
+        exit(1);
+    }
+
+
+    while (1) {
+        
+        if (entrada == stdin){
+            printf("processflow> ");
+        }
+
+        if (fgets(linha, sizeof(linha), entrada)==NULL){
+            break;
+        }
+        
+        if (entrada != stdin) {
+            printf("%s", linha);
+        }
+
+        if (strcmp(linha, "exit\n") == 0 || strcmp(linha, "exit")==0) {
             break;   
         }
+
         parse(linha, argv);
         if (argv[0] == NULL) {
             continue;
@@ -32,6 +56,18 @@ int main() {
             }
             cadastrar_task (argv[1], &argv[2]);
             printf("Task %s cadastrada com sucesso\n", argv[1]);
+        }
+        
+        if (strcmp(argv[0], "workdir")==0){
+            if (argv[1] == NULL) {
+                printf("Uso: workdir <diretorio>\n");
+                continue;
+            }
+            if (chdir(argv[1]) == -1) {
+                printf("Diretório informado em workdir não existe\n");
+                continue;
+            }
+            printf("Diretório alterado com sucesso para %s\n", argv[1]);
         }
 
         if (strcmp(argv[0], "start")==0){

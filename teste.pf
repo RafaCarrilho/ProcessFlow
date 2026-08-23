@@ -1,0 +1,3 @@
+task teste echo ola
+run teste
+exit
