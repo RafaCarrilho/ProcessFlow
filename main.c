@@ -27,13 +27,18 @@ int main() {
 
         if (strcmp(argv[0], "run")==0){
             if (strcmp(argv[1], "sequential")==0){
+                
                 executar_sequencial(&argv[2]);
 
             } else if  (strcmp(argv[1], "parallel")==0){
                 
                 executar_paralelo(&argv[2]);
                 
-            }else{
+            }else if (strcmp(argv[1], "pipe")==0){
+                
+                executar_pipe(&argv[2]);
+
+            } else {
                 task *task_alvo =encontrar_task (argv[1]);
             
                 if (task_alvo != NULL) {
