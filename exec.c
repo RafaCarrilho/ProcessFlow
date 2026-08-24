@@ -183,7 +183,7 @@ void executar_pipe (char *argv[]){
         if (WIFEXITED(status)) {
             
         } else {
-            printf("Não foi dessa vez...\n"); //vou remover essas remarks de teste no futuro
+            printf("Não foi dessa vez...\n"); 
         }
     }
 }

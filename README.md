@@ -1,54 +1,51 @@
 # ProcessFlow
 
-Orquestrador de processos em C — cadastra tarefas e as executa via fork/exec/wait/dup2/pipe,
-sem delegar para outro shell. Suporta execução sequencial, paralela, em pipe, redirecionamento
-de entrada/saída/append, diretório de trabalho configurável e execução em background com jobs.
+Orquestrador de processos em C. Recebe tarefas (programas do sistema), cadastra-as por nome e as executa como processos filhos via `fork()`/`exec()`/`wait()`/`dup2()`/`pipe()`, sem delegar a outro shell (`system()`/`popen()` não usados). Suporta execução sequencial, paralela e em pipe entre tarefas, redirecionamento de entrada/saída/append, diretório de trabalho configurável, e execução em background com controle de jobs.
 
 ## Arquivos
 
-- `main.c` — loop principal (interativo e modo workflow), parsing de comando e despacho
-- `parser.c` / `parser.h` — tokenização de linha em `argv[]`
-- `task.c` / `task.h` — cadastro/busca de tasks, configuração de input/output/append
-- `job.c` / `job.h` — controle de jobs em background (start/jobs/wait)
-- `exec.c` / `exec.h` — execução de fato (fork/exec/pipe/dup2/wait)
-- `common.h` — constantes do projeto (MAXARG, MAXFILE, MAXTASKS, MAXJOBS)
-- `Makefile` — compilação e limpeza
-- `teste.pf`, `teste_exit.pf` — arquivos de exemplo para o modo workflow
+- `main.c` — loop interativo/workflow e despacho dos comandos.
+- `parser.c` / `parser.h` — tokenização de cada linha em argumentos.
+- `task.c` / `task.h` — cadastro e busca de tarefas, redirecionamento de input/output/append.
+- `exec.c` / `exec.h` — execução (simples, sequencial, paralela, pipe, background).
+- `job.c` / `job.h` — controle de jobs em background (`start`/`jobs`/`wait`).
+- `common.h` — constantes compartilhadas (`MAXARG`, `MAXFILE`, `MAXTASKS`, `MAXJOBS`).
+- `Makefile` — compilação e limpeza.
 
 ## Como compilar
 
-    make
+Rode `make`. Gera o executável `processflow`.
 
 ## Como executar
 
-Modo interativo:
+Modo interativo (mostra o prompt `processflow> `): `./processflow`
 
-    ./main
+Modo workflow (lê comandos de um arquivo `.pf`, ecoando cada linha antes de processar, sem prompt): `./processflow arquivo.pf`
 
-Modo workflow (lê comandos de um arquivo, um por linha):
+Modo "entrada redirecionada" (sem prompt, sem eco — só a saída dos comandos, útil pra comparar contra um arquivo de saída esperado): `./processflow < arquivo.txt`
 
-    ./main <arquivo.pf>
+Em qualquer modo, o comando `exit` encerra o programa.
 
-## Como limpar os arquivos compilados
+## Como limpar
 
-    make clean
+Rode `make clean`.
 
 ## Sistema operacional usado
 
-Ubuntu 26.04 LTS (WSL2)
+Ubuntu 26.04 LTS (WSL2).
 
 ## Comandos suportados
 
-    task <nome> <programa> [args...]
-    run <nome>
-    run sequential <nome1> <nome2> ...
-    run parallel <nome1> <nome2> ...
-    run pipe <nome1> <nome2> ...
-    input <nome> <arquivo>
-    output <nome> <arquivo>
-    append <nome> <arquivo>
-    start <nome>
-    jobs
-    wait <jobID>
-    workdir <diretorio>
-    exit
+- `task <nome> <programa> [argumentos...]` — cadastra uma tarefa.
+- `run <nome>` — executa uma tarefa isolada.
+- `run sequential <t1> <t2> ...` — executa em sequência.
+- `run parallel <t1> <t2> ...` — executa em paralelo.
+- `run pipe <t1> <t2> ...` — executa encadeadas por pipe.
+- `input <tarefa> <arquivo>` — redireciona entrada da tarefa.
+- `output <tarefa> <arquivo>` — redireciona saída da tarefa (trunca).
+- `append <tarefa> <arquivo>` — redireciona saída da tarefa (não trunca).
+- `workdir <diretório>` — muda o diretório de trabalho do ProcessFlow (herdado pelos filhos).
+- `start <tarefa>` — executa em background, imprime `[jobId] PID`.
+- `jobs` — lista jobs em background.
+- `wait <jobId>` — aguarda o término de um job específico.
+- `exit` — encerra o ProcessFlow.
