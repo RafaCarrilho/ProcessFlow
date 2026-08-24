@@ -59,7 +59,7 @@ void executar (task* task_alvo){
         waitpid(pid, &status, 0);
 
         if (WIFEXITED(status)){
-            printf("Terminamos bem galera\n");
+            
         } else {
             printf ("Não foi dessa vez...\n");
         }
@@ -111,7 +111,7 @@ void executar_paralelo (char *argv[]){
         waitpid(listapid[j], &status, 0);
         
         if (WIFEXITED(status)) {
-            printf("Terminamos bem galera\n");
+            
         } else {
             printf("Não foi dessa vez...\n");
         }
@@ -181,7 +181,7 @@ void executar_pipe (char *argv[]){
     for (int j = 0; j < p; j++) {
         waitpid(listapid[j], &status, 0);
         if (WIFEXITED(status)) {
-            printf("Terminamos bem galera\n"); //vou remover essas remarks de teste no futuro
+            
         } else {
             printf("Não foi dessa vez...\n"); //vou remover essas remarks de teste no futuro
         }

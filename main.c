@@ -25,10 +25,11 @@ int main(int argc, char *arguments[]) {
         exit(1);
     }
 
-
+    setbuf(stdout, NULL);
+    
     while (1) {
         
-        if (entrada == stdin){
+        if (isatty(fileno(stdin)) && entrada == stdin){
             printf("processflow> ");
         }
 
@@ -55,7 +56,7 @@ int main(int argc, char *arguments[]) {
                 continue;
             }
             cadastrar_task (argv[1], &argv[2]);
-            printf("Task %s cadastrada com sucesso\n", argv[1]);
+            
         }
         
         if (strcmp(argv[0], "workdir")==0){
@@ -67,7 +68,7 @@ int main(int argc, char *arguments[]) {
                 printf("Diretório informado em workdir não existe\n");
                 continue;
             }
-            printf("Diretório alterado com sucesso para %s\n", argv[1]);
+            
         }
 
         if (strcmp(argv[0], "start")==0){
@@ -102,7 +103,7 @@ int main(int argc, char *arguments[]) {
                 continue;
             }
             criar_input (argv[1], argv[2]);
-            printf("Input de %s alterado com sucesso\n", argv[1]);
+            
         }
 
         if (strcmp(argv[0], "output")==0){
@@ -111,7 +112,7 @@ int main(int argc, char *arguments[]) {
                 continue;
             }
             criar_output (argv[1], argv[2]);
-            printf("Output de %s alterado com sucesso\n", argv[1]);
+            
         }
 
         if (strcmp(argv[0], "append")==0){
@@ -120,7 +121,7 @@ int main(int argc, char *arguments[]) {
                 continue;
             }
             criar_append (argv[1], argv[2]);
-            printf("Append de %s alterado com sucesso\n", argv[1]);
+            
         }
 
         if (strcmp(argv[0], "run")==0){
