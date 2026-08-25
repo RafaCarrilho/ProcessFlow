@@ -30,6 +30,20 @@ Em qualquer modo, o comando `exit` encerra o programa.
 
 Rode `make clean`.
 
+## Como testar
+
+Testes oficiais do professor (`teste1`/`teste2` interativos, `teste3` batch):
+
+make clean && make
+diff <(./processflow < teste1/teste1-entrada.txt) teste1/teste1-saida.txt
+diff <(./processflow < teste2/teste2-entrada.txt) teste2/teste2-saida.txt
+diff <(./processflow teste3/teste3-entrada.txt) teste3/teste3-saida.txt
+
+
+`teste1`/`teste2` rodam com `<` (entrada redirecionada, sem eco). `teste3` roda passando o arquivo como argumento (modo workflow, com eco), que é como o `-saida.txt` dele foi gerado. `diff` sem saída (ou só "no newline at end of file") = teste passou.
+
+Casos de erro pra testar manualmente: Enter vazio, `task`/`wait` sozinhos, `input <tarefa>` sem arquivo, `./processflow a.pf b.pf` (argumentos demais), `./processflow naoexiste.pf` — nenhum deve travar o programa.
+
 ## Sistema operacional usado
 
 Ubuntu 26.04 LTS (WSL2).
